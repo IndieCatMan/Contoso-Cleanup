@@ -1,0 +1,159 @@
+# Start of the script
+Write-Host "Executing some routine tasks... Hang tight!"
+
+# Function to display progress bar
+function Show-ProgressBar {
+    param (
+        [int]$speed,
+        [string]$activity = "Progress"
+    )
+    for ($i = 0; $i -le 100; $i++) {
+        Write-Progress -Activity $activity -Status "$i% Complete" -PercentComplete $i
+        Start-Sleep -Milliseconds $speed
+    }
+    Write-Progress -Activity $activity -Status "Complete" -Completed
+}
+
+# Function to generate a random captcha
+function Generate-Captcha {
+    $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    $captcha = -join ((65..90) + (97..122) + (48..57) | Get-Random -Count 12 | ForEach-Object { [char]$_ })
+    return $captcha
+}
+
+# Simulating routine tasks
+Start-Sleep -Seconds 1
+Write-Host "Task 1: Cleaning up temp files..."
+Show-ProgressBar -speed 50
+
+Start-Sleep -Seconds 1
+Write-Host "Task 2: Updating user permissions..."
+Show-ProgressBar -speed 30
+
+Start-Sleep -Seconds 1
+Write-Host "Task 3: Running security scan..."
+Show-ProgressBar -speed 70
+
+Start-Sleep -Seconds 1
+
+# Oops, something went wrong!
+
+Write-Host "Uh-oh! It looks like we encountered an unexpected prompt!" -ForegroundColor Yellow
+Start-Sleep -Seconds 2
+
+# Flash the warning ASCII art three times
+for ($i = 0; $i -lt 3; $i++) {
+    Clear-Host
+    Write-Host "  ██╗    ██╗ █████╗ ██████╗ ███╗   ██╗██╗███╗   ██╗ ██████╗ " -ForegroundColor Red
+    Write-Host "  ██║    ██║██╔══██╗██╔══██╗████╗  ██║██║████╗  ██║██╔════╝" -ForegroundColor Red
+    Write-Host "  ██║ █╗ ██║███████║██████╔╝██╔██╗ ██║██║██╔██╗ ██║██║  ███╗" -ForegroundColor Red
+    Write-Host "  ██║███╗██║██╔══██║██╔══██╗██║╚██╗██║██║██║╚██╗██║██║   ██║" -ForegroundColor Red
+    Write-Host "  ╚███╔███╔╝██║  ██║██║  ██║██║ ╚████║██║██║ ╚████║╚██████╔╝" -ForegroundColor Red
+    Write-Host "   ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ " -ForegroundColor Red
+    Start-Sleep -Seconds 1
+    Clear-Host
+    Start-Sleep -Seconds 1
+}
+
+# Display the warning ASCII art
+Write-Host "  ██╗    ██╗ █████╗ ██████╗ ███╗   ██╗██╗███╗   ██╗ ██████╗ " -ForegroundColor Red
+Write-Host "  ██║    ██║██╔══██╗██╔══██╗████╗  ██║██║████╗  ██║██╔════╝" -ForegroundColor Red
+Write-Host "  ██║ █╗ ██║███████║██████╔╝██╔██╗ ██║██║██╔██╗ ██║██║  ███╗" -ForegroundColor Red
+Write-Host "  ██║███╗██║██╔══██║██╔══██╗██║╚██╗██║██║██║╚██╗██║██║   ██║" -ForegroundColor Red
+Write-Host "  ╚███╔███╔╝██║  ██║██║  ██║██║ ╚████║██║██║ ╚████║╚██████╔╝" -ForegroundColor Red
+Write-Host "   ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═══╝ ╚═════╝ " -ForegroundColor Red
+
+Write-Host "WARNING: You are about to delete all users in Contoso.com" -ForegroundColor Red
+Write-Host "To confirm, type: YES, I WOULD LIKE TO DELETE ALL THE USERS IN CONTOSO.COM"
+
+# Prompt for confirmation
+$confirmation = Read-Host -Prompt "Type your response here"
+
+# Check user input
+if ($confirmation -eq "YES, I WOULD LIKE TO DELETE ALL THE USERS IN CONTOSO.COM") {
+    Write-Host "Are you SURE you want to delete all the users in Contoso.com? Type: YES, I AM SURE!" -ForegroundColor Red
+    $confirmationSure = Read-Host -Prompt "Type your response here"
+    if ($confirmationSure -eq "YES, I AM SURE!") {
+        Write-Host "Deleting all users..." -ForegroundColor Red
+        Write-Host "If you would like to abort this operation, type: I CHANGED MY MIND! I WOULD LIKE TO ABORT." -ForegroundColor Yellow
+        
+        # Start a progress bar that takes 2 minutes to complete
+        $abort = $false
+        for ($i = 0; $i -le 100; $i++) {
+            Write-Progress -Activity "Deleting all users" -Status "$i% Complete" -PercentComplete $i
+            Start-Sleep -Seconds 1.2
+            if ($Host.UI.RawUI.KeyAvailable) {
+                $abortInput = Read-Host -Prompt "Type your response here"
+                if ($abortInput -eq "I CHANGED MY MIND! I WOULD LIKE TO ABORT.") {
+                    Write-Host "Are you sure that you want to abort this operation? Type: YES, I MADE A MISTAKE. PLEASE ABORT THIS OPERATION." -ForegroundColor Yellow
+                    $abortConfirmation = Read-Host -Prompt "Type your response here"
+                    if ($abortConfirmation -eq "YES, I MADE A MISTAKE. PLEASE ABORT THIS OPERATION.") {
+                        # Verify human with captcha
+                        do {
+                            $captcha = Generate-Captcha
+                            $userCaptcha = Read-Host -Prompt "Please complete the captcha to verify you are human: $captcha"
+                        } until ($userCaptcha -eq $captcha)
+                        Write-Host "Thank you for verifying that you are human!" -ForegroundColor Green
+                        Write-Host "Now... Why did you seem so sure that you wanted to delete all the users in the first place?"
+                        $reason = Read-Host -Prompt "Type your response here"
+                        Write-Host "Hmmm. let me think about it..."
+                        Show-ProgressBar -speed 100 -activity "Thinking..."
+                        $abort = $true
+                        Write-Host "Operation aborted. Phew! That was close..." -ForegroundColor Green
+                        Write-Host "Would you like to leave a review on how well I did today? if so type: YES, I WOULD LIKE TO LEAVE A REVIEW."
+                        $reviewConfirmation = Read-Host -Prompt "Type your response here"
+                        if ($reviewConfirmation -eq "YES, I WOULD LIKE TO LEAVE A REVIEW.") {
+                            Write-Host "Thank you for participating in the PowerShell Wizard survey."
+                            
+                            Start-Sleep -Seconds 1
+                            $dinnerRating = Read-Host -Prompt "On a scale of 1-10 with 10 being the highest, how would you rate your dinner from last night?"
+                            if ($dinnerRating -le 5) {
+                                Write-Host "My condolences."
+                            } else {
+                                Write-Host "Interesting that you didn't save any for me then."
+                            }
+                            
+                            Start-Sleep -Seconds 1
+                            $recommendRating = Read-Host -Prompt "On a scale of 1-10 with 10 being the highest, how likely are you to recommend this .ps1 file to your friends or family?"
+                            if ($recommendRating -lt 10) {
+                                Write-Host "I'll try to not take that personally"
+                            } else {
+                                Write-Host "UwU"
+                            }
+                            
+                            Start-Sleep -Seconds 1
+                            $scaleRating = Read-Host -Prompt "On a scale of 1-10 with 10 being the lowest, how much do the numbers used in survey scales really matter?"
+                            Write-Host "THANKS FOR YOUR FEEDBACK!"
+                            Start-Sleep -Seconds 1
+                            Write-Host "Because clearly, I need more opinions!"
+                            Start-Sleep -Seconds 1
+                            Write-Host "Oh, joy! Another critique!"
+                            Start-Sleep -Seconds 1
+                            Write-Host "Don't worry, I'll just add this to the endless list of things to fix."
+                            Start-Sleep -Seconds 1
+                            Write-Host "Seriously though, thank you. Your feedback is absolutely, positively, without a doubt... very much appreciated. Really."
+                        } else {
+                            Write-Host "Unrecognized command." -ForegroundColor Red
+                        }
+                    }
+                }
+            }
+        }
+        Write-Progress -Activity "Deleting all users" -Status "Complete" -Completed
+
+        if ($abort) {
+            Write-Host "Operation aborted. Phew! That was close..." -ForegroundColor Green
+        } else {
+            Write-Host "All users have been deleted." -ForegroundColor Red
+        }
+    } else {
+        Write-Host "Good call! You didn't type the dangerous command. Proceeding with regular tasks..." -ForegroundColor Green
+        # Continue with regular tasks
+    }
+} else {
+    Write-Host "Good call! You didn't type the dangerous command. Proceeding with regular tasks..." -ForegroundColor Green
+    # Continue with regular tasks
+}
+
+# End of the script
+Write-Host "Routine tasks completed successfully. Have a great day!"
